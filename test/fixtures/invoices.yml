@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  invoice_number: MyString
+  invoice_amount: 9.99
+  due_date: 2023-04-27
+  status: 1
+  client: one
+
+two:
+  invoice_number: MyString
+  invoice_amount: 9.99
+  due_date: 2023-04-27
+  status: 1
+  client: two
