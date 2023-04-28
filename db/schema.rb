@@ -10,12 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_27_043158) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_27_233522) do
+  create_table "client_invoices", force: :cascade do |t|
+    t.integer "client_id"
+    t.integer "invoice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clients", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_clients_on_name"
+  end
+
+  create_table "clients_invoices", force: :cascade do |t|
+    t.integer "client_id"
+    t.integer "invoice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "fees", force: :cascade do |t|
