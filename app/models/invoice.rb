@@ -3,6 +3,6 @@ class Invoice < ApplicationRecord
   has_one_attached :invoice_scan
   has_many :fees
 
-  validates :invoice_number, uniqueness: true
+  validates :invoice_number, presence: true, uniqueness: true
   enum status: { created: 0, rejected: 1, approved: 2, purchased: 3, closed: 4 }
 end
