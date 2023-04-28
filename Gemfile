@@ -30,6 +30,12 @@ gem "jbuilder"
 # for file upload
 gem 'activestorage'
 
+# for accruing fees / background jobs
+gem 'sidekiq'
+
+gem 'pg', '~> 1.5', '>= 1.5.2'
+
+
 # testing
 gem 'rspec-core'
 gem 'rspec-rails', '~> 5.0.0'

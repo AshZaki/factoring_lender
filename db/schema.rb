@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_04_28_030306) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,13 +42,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_030306) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "client_invoices", force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "invoice_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "clients", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -53,15 +49,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_030306) do
     t.index ["name"], name: "index_clients_on_name"
   end
 
-  create_table "clients_invoices", force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "invoice_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "fees", force: :cascade do |t|
-    t.integer "invoice_id", null: false
+    t.bigint "invoice_id", null: false
     t.decimal "fee_amount", null: false
     t.date "fee_date", null: false
     t.datetime "created_at", null: false
@@ -75,7 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_030306) do
     t.decimal "invoice_amount", null: false
     t.date "due_date", null: false
     t.integer "status", default: 0, null: false
-    t.integer "client_id", null: false
+    t.bigint "client_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["client_id"], name: "index_invoices_on_client_id"
