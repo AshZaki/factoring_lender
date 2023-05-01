@@ -3,7 +3,8 @@ class Invoice < ApplicationRecord
   has_one_attached :invoice_scan
   has_many :fees
 
-  validates :invoice_number, presence: true, uniqueness: true
+  validates :invoice_number, presence: true, uniqueness: { case_sensitive: false }
+  validates :invoice_amount, numericality: { greater_than_or_equal_to: 0 }
   enum status: { created: 0, rejected: 1, approved: 2, purchased: 3, closed: 4 }
 
   after_save :set_purchased_at, if: :purchased_status_changed?

@@ -12,8 +12,6 @@ RSpec.describe ClientsController, type: :controller do
     it 'returns all clients with invoices' do
       get :index, format: :json
       clients = JSON.parse(response.body)
-      puts "Response body: #{response.body}" # Debugging line
-      puts "Valid client: #{valid_client.inspect}" # Debugging line
       expect(response).to have_http_status(:success)
       expect(clients.map { |client| client['id'] }).to include(valid_client.id)
     end
