@@ -1,0 +1,11 @@
+---
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20
+:scheduler:
+  :schedule:
+    invoice_accrue_fee_job:
+      cron: '* * * * *' # Run the job every minute
+      class: InvoiceAccrueFeeJob

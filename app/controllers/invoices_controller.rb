@@ -1,15 +1,19 @@
 class InvoicesController < ApplicationController
   def index
     @invoices = Invoice.all
-    invoices_with_urls = @invoices.map do |invoice|
+    invoice_data = @invoices.map do |invoice|
       invoice_as_json = invoice.as_json
+  
+      # Round the invoice_amount to 2 decimal places
+      invoice_as_json['invoice_amount'] = invoice.invoice_amount.round(2)
+  
       if invoice.invoice_scan.attached?
         invoice_as_json['invoice_scan_url'] = url_for(invoice.invoice_scan)
       end
       invoice_as_json
     end
-
-    render json: invoices_with_urls
+  
+    render json: invoice_data
   end
 
   def new
@@ -53,7 +57,6 @@ class InvoicesController < ApplicationController
   end
   
   private
-  
   def invoice_update_params
     params.require(:invoice).permit(:status, :invoice_scan, :invoice)
   end
@@ -67,5 +70,4 @@ class InvoicesController < ApplicationController
   def set_default_status
     params[:invoice][:status] = 0
   end
-
 end

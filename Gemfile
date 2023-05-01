@@ -32,6 +32,8 @@ gem 'activestorage'
 
 # for accruing fees / background jobs
 gem 'sidekiq'
+gem 'sidekiq-scheduler', '~> 5.0'
+
 
 gem 'pg', '~> 1.5', '>= 1.5.2'
 

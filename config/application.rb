@@ -13,10 +13,6 @@ module FactoringLender
     config.api_only = true
     config.active_job.queue_adapter = :sidekiq
     config.cache_store = :redis_cache_store, { url: "redis://redis:6379/1" }
-    config.after_initialize do
-      InvoiceAccrueFeeJob.set(wait: 30.seconds).perform_later
-    end
-
 
     # Configuration for the application, engines, and railties goes here.
     #
