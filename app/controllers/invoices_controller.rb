@@ -62,7 +62,7 @@ class InvoicesController < ApplicationController
   
   private
   def invoice_update_params
-    params.require(:invoice).permit(:status, :invoice_scan, :invoice)
+    params.require(:invoice).permit(:status, :invoice_scan, :due_date, :purchased_at)
   end
   
   def invoice_create_params
@@ -76,12 +76,14 @@ class InvoicesController < ApplicationController
   end
 
   def valid_transition?(current_status, new_status)
+    return true if new_status.nil? || current_status == new_status
+  
     valid_transitions = {
       'created' => ['approved', 'rejected'],
       'approved' => ['purchased'],
       'purchased' => ['closed'],
     }
-
+  
     valid_transitions[current_status]&.include?(new_status)
   end
 end
