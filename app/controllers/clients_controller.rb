@@ -1,8 +1,19 @@
 class ClientsController < ApplicationController
   def index
     @clients = Client.all
-    render json: @clients, include: :invoices
+    client_data = @clients.map do |client|
+      client_as_json = client.as_json
+      client_as_json['invoices'] = client.invoices.map do |invoice|
+        # Round the invoice_amount to 2 decimal places
+        invoice_as_json = invoice.as_json
+        invoice_as_json['invoice_amount'] = invoice.invoice_amount.round(2)
+        invoice_as_json
+      end
+      client_as_json
+    end
+    render json: client_data
   end
+  
 
   def new
     @client = Client.find(params[:id])

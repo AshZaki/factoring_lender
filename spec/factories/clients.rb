@@ -1,6 +1,6 @@
 FactoryBot.define do
     factory :client do
-      name { Faker::Company.name }
+      name { Faker::Name.unique.name }
     end
   end
   
