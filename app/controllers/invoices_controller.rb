@@ -40,8 +40,9 @@ class InvoicesController < ApplicationController
 
   def update
     @invoice = Invoice.find(params[:id])
-    # Only allow updates if the status is not closed or rejected (finished states)
-    if !['closed', 'rejected'].include?(@invoice.status)
+    new_status = invoice_update_params[:status]
+    
+    if valid_transition?(@invoice.status, new_status)
       @invoice.assign_attributes(invoice_update_params)
       if @invoice.save()
         # Attach the uploaded file to the invoice
@@ -55,7 +56,7 @@ class InvoicesController < ApplicationController
         render json: { errors: @invoice.errors.full_messages, invoice: @invoice.as_json }, status: :unprocessable_entity
       end
     else
-      render json: { errors: 'The invoice cannot be updated because it is already in a finished state.' }, status: :unprocessable_entity
+      render json: { errors: 'Invalid status transition.' }, status: :unprocessable_entity
     end
   end
   
@@ -72,5 +73,15 @@ class InvoicesController < ApplicationController
 
   def set_default_status
     params[:invoice][:status] = "created"
+  end
+
+  def valid_transition?(current_status, new_status)
+    valid_transitions = {
+      'created' => ['approved', 'rejected'],
+      'approved' => ['purchased'],
+      'purchased' => ['closed'],
+    }
+
+    valid_transitions[current_status]&.include?(new_status)
   end
 end

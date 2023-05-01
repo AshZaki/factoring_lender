@@ -44,7 +44,7 @@ RSpec.describe InvoicesController, type: :controller do
   describe 'PUT #update' do
     context 'with valid attributes' do
       it "returns a :ok status" do
-        put :update, params: { id: invoice.id, invoice: { status: "purchased" } }, format: :json
+        put :update, params: { id: invoice.id, invoice: { status: "approved" } }, format: :json
         expect(response).to have_http_status(:ok)
       end  
     end
